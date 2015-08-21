@@ -1,0 +1,25 @@
+[analysis]
+testwidth = 320
+testheight = 240
+threshold = 9
+sensitivity = 10
+
+[alert]
+criticalthreshold = 20
+abandontime = 300
+defaultvolume = 2
+cmdAlert = nohup mplayer -really-quiet  /media/sids/beep-06.wav /media/sids/beep-06.wav &
+cmdBackNormal = nohup mplayer -really-quiet  /media/sids/Beep-back-normal.mp3 &
+
+[flag]
+path = /media/sids/monitor.disable
+msgFlag = Flag en place.Waiting 5s
+[image]
+username = XXXXX
+password = XXXXXX
+url = http://URL
+
+[dev]
+debug = True
+log = /media/sids/sids.log
+
