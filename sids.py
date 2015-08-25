@@ -122,14 +122,14 @@ try:
             heure = time.time()
             if ((heure - lastMovementTime) <= config.getint('alert','abandonTime')):
                 if ((heure - lastMovementTime) >= config.getint('alert','criticalThreshold')):
-                    alertVolume += config.getint('alert','volumeIncrement')
+                    alertVolume += config.getfloat('alert','volumeIncrement')
                     cmdVolume = config.get('alert','cmdVolumeChange')
-                    cmdVolume = cmdVolume.replace('VOLUME',str(alertVolume))
+                    cmdVolume = cmdVolume.replace('%s',str(alertVolume))
                     subprocess.call("%s" % (cmdVolume), shell=True)  
                     potentialSIDS = True
-                    
-                    log("ALERTE pas de changement depuis %s" % (heure - lastMovementTime))
-                   
+                    msgAlert = config.get('alert','msgAlert')
+                    msgAlert = msgAlert.replace('%s',str((heure - lastMovementTime)))
+                    log("%s" % msgAlert)
                     subprocess.call(" %s " % config.get('alert','cmdAlert'), shell=True)
                     
             else:
@@ -142,4 +142,4 @@ try:
             alertVolume = config.getint('alert','defaultVolume')
 except KeyboardInterrupt:
     pass
-    
+    print "End of monitor"
