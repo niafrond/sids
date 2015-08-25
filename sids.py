@@ -11,6 +11,7 @@ import datetime
 import os.path
 import logging
 import ConfigParser
+import string
 print "Libraries loaded"
 config = ConfigParser.RawConfigParser()
 config.read('/media/sids/sids.cfg')
@@ -121,8 +122,10 @@ try:
             heure = time.time()
             if ((heure - lastMovementTime) <= config.getint('alert','abandonTime')):
                 if ((heure - lastMovementTime) >= config.getint('alert','criticalThreshold')):
-                    alertVolume += 0.5
-                    subprocess.call(" amixer set Speaker %s" % alertVolume, shell=True)  
+                    alertVolume += config.getint('alert','volumeIncrement')
+                    cmdVolume = config.get('alert','cmdVolumeChange')
+                    cmdVolume = cmdVolume.replace('VOLUME',str(alertVolume))
+                    subprocess.call("%s" % (cmdVolume), shell=True)  
                     potentialSIDS = True
                     
                     log("ALERTE pas de changement depuis %s" % (heure - lastMovementTime))
