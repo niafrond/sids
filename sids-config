@@ -1,14 +1,14 @@
 #!/usr/bin/python
 import sys
-print "Python %s" %(sys.version)
-
 import ConfigParser
-
 config = ConfigParser.RawConfigParser()
-config.read('sids.cfg')
+config.read('/media/sids/sids.cfg')
 section=sys.argv[1]
 option=sys.argv[2]
-valeur=sys.argv[3]
-config.set(section, option, valeur)
-with open(r'sids.cfg', 'wb') as configfile:
-    config.write(configfile)
+if len(sys.argv) > 3:
+    valeur=sys.argv[3]
+    config.set(section, option, valeur)
+    with open(r'/media/sids/sids.cfg', 'wb') as configfile:
+        config.write(configfile)
+else:
+    print config.get(section, option)
